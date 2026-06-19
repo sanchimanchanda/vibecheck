@@ -1,0 +1,760 @@
+rules:
+  - id: php-unsafe-echo
+    pattern: echo $...X
+    message: "Unsafe output - potential XSS vulnerability"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-79"
+      fix: "Use htmlspecialchars() or similar encoding function before output"
+
+  - id: php-unsafe-print
+    pattern: print $...X
+    message: "Unsafe output - potential XSS vulnerability"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-79"
+      fix: "Use htmlspecialchars() or similar encoding function before output"
+
+  - id: php-unsafe-printf
+    pattern: printf($...X)
+    message: "Unsafe output - potential XSS vulnerability"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-79"
+      fix: "Use htmlspecialchars() or similar encoding function before output"
+
+  - id: php-unsafe-var-dump
+    pattern: var_dump($...X)
+    message: "Debug information exposure - remove in production"
+    severity: INFO
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-200"
+      fix: "Remove debug statements in production code"
+
+  - id: php-unsafe-print-r
+    pattern: print_r($...X)
+    message: "Debug information exposure - remove in production"
+    severity: INFO
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-200"
+      fix: "Remove debug statements in production code"
+
+  - id: php-unsafe-mysql-query
+    pattern: mysql_query($...X)
+    message: "Deprecated and unsafe MySQL query - use prepared statements"
+    severity: ERROR
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-89"
+      fix: "Use PDO or mysqli with prepared statements"
+
+  - id: php-unsafe-mysqli-query
+    pattern: mysqli_query($...X, $...Y)
+    message: "Potential SQL injection - use prepared statements"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-89"
+      fix: "Use prepared statements with mysqli_prepare()"
+
+  - id: php-unsafe-exec
+    pattern: exec($...X)
+    message: "Command injection vulnerability - avoid using user input in exec()"
+    severity: ERROR
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-78"
+      fix: "Avoid using user input in system commands, use built-in functions"
+
+  - id: php-unsafe-shell-exec
+    pattern: shell_exec($...X)
+    message: "Command injection vulnerability - avoid using user input in shell_exec()"
+    severity: ERROR
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-78"
+      fix: "Avoid using user input in system commands, use built-in functions"
+
+  - id: php-unsafe-system
+    pattern: system($...X)
+    message: "Command injection vulnerability - avoid using user input in system()"
+    severity: ERROR
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-78"
+      fix: "Avoid using user input in system commands, use built-in functions"
+
+  - id: php-unsafe-passthru
+    pattern: passthru($...X)
+    message: "Command injection vulnerability - avoid using user input in passthru()"
+    severity: ERROR
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-78"
+      fix: "Avoid using user input in system commands, use built-in functions"
+
+  - id: php-unsafe-include
+    pattern: include $...X
+    message: "File inclusion vulnerability - validate file paths"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-98"
+      fix: "Validate and sanitize file paths before inclusion"
+
+  - id: php-unsafe-require
+    pattern: require $...X
+    message: "File inclusion vulnerability - validate file paths"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-98"
+      fix: "Validate and sanitize file paths before inclusion"
+
+  - id: php-unsafe-file-get-contents
+    pattern: file_get_contents($...X)
+    message: "File access vulnerability - validate file paths"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-73"
+      fix: "Validate and sanitize file paths before access"
+
+  - id: php-weak-hash
+    pattern: md5($...X)
+    message: "Weak cryptographic hash - use stronger algorithms"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-327"
+      fix: "Use password_hash() for passwords or hash() with stronger algorithms"
+
+  - id: php-weak-hash-sha1
+    pattern: sha1($...X)
+    message: "Weak cryptographic hash - use stronger algorithms"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-327"
+      fix: "Use password_hash() for passwords or hash() with stronger algorithms"
+
+  - id: javascript-unsafe-innerhtml
+    pattern: $X.innerHTML = $...Y
+    message: "XSS vulnerability - avoid setting innerHTML with user input"
+    severity: WARNING
+    languages: [javascript]
+    metadata:
+      category: security
+      cwe: "CWE-79"
+      fix: "Use textContent or sanitize input before setting innerHTML"
+
+  - id: javascript-unsafe-document-write
+    pattern: document.write($...X)
+    message: "XSS vulnerability - avoid using document.write with user input"
+    severity: WARNING
+    languages: [javascript]
+    metadata:
+      category: security
+      cwe: "CWE-79"
+      fix: "Use DOM manipulation methods or sanitize input"
+
+  - id: javascript-unsafe-eval
+    pattern: eval($...X)
+    message: "Code injection vulnerability - avoid using eval with user input"
+    severity: ERROR
+    languages: [javascript]
+    metadata:
+      category: security
+      cwe: "CWE-95"
+      fix: "Use JSON.parse() or other safe alternatives"
+
+  - id: python-unsafe-eval
+    pattern: eval($...X)
+    message: "Code injection vulnerability - avoid using eval with user input"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      category: security
+      cwe: "CWE-95"
+      fix: "Use ast.literal_eval() or other safe alternatives"
+
+  - id: python-unsafe-exec
+    pattern: exec($...X)
+    message: "Code injection vulnerability - avoid using exec with user input"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      category: security
+      cwe: "CWE-95"
+      fix: "Avoid using exec with untrusted input"
+
+  - id: python-unsafe-os-system
+    pattern: os.system($...X)
+    message: "Command injection vulnerability - avoid using user input in os.system()"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      category: security
+      cwe: "CWE-78"
+      fix: "Use subprocess with proper argument handling"
+
+  - id: python-unsafe-subprocess-shell
+    pattern: subprocess.run($...X, shell=True)
+    message: "Command injection vulnerability - avoid shell=True with user input"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      category: security
+      cwe: "CWE-78"
+      fix: "Use subprocess without shell=True and proper argument handling"
+
+  - id: python-weak-random
+    pattern: random.randint($...X)
+    message: "Weak random number generation - use secrets module for security"
+    severity: WARNING
+    languages: [python]
+    metadata:
+      category: security
+      cwe: "CWE-338"
+      fix: "Use secrets.randbelow() or secrets.choice() for cryptographic purposes"
+
+  - id: python-unsafe-pickle
+    pattern: pickle.loads($...X)
+    message: "Insecure deserialization - avoid unpickling untrusted data"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      category: security
+      cwe: "CWE-502"
+      fix: "Use JSON or other safe serialization formats"
+
+  - id: python-unsafe-yaml-load
+    pattern: yaml.load($...X)
+    message: "Insecure YAML loading - use yaml.safe_load()"
+    severity: WARNING
+    languages: [python]
+    metadata:
+      category: security
+      cwe: "CWE-502"
+      fix: "Use yaml.safe_load() instead of yaml.load()"
+
+  - id: html-unsafe-input
+    pattern: <input ...>
+    message: "Missing input validation attributes"
+    severity: INFO
+    languages: [html]
+    metadata:
+      category: security
+      cwe: "CWE-20"
+      fix: "Add proper validation attributes like pattern, required, maxlength"
+
+  - id: html-unsafe-form
+    pattern: <form ...>
+    message: "Form without CSRF protection"
+    severity: INFO
+    languages: [html]
+    metadata:
+      category: security
+      cwe: "CWE-352"
+      fix: "Add CSRF tokens to forms"
+
+  - id: sql-unsafe-string-concat
+    pattern: SELECT ... FROM ... WHERE ... = $...X
+    message: "Potential SQL injection - use parameterized queries"
+    severity: WARNING
+    languages: [sql]
+    metadata:
+      category: security
+      cwe: "CWE-89"
+      fix: "Use prepared statements or parameterized queries"
+
+  # Hardcoded Credentials and Secrets
+  - id: hardcoded-password
+    pattern: password = "..."
+    message: "Hardcoded password detected - security risk"
+    severity: ERROR
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-259"
+      fix: "Use environment variables or secure secret management"
+
+  - id: hardcoded-api-key
+    pattern: api_key = "..."
+    message: "Hardcoded API key detected - security risk"
+    severity: ERROR
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-259"
+      fix: "Use environment variables or secure secret management"
+
+  - id: hardcoded-secret
+    pattern: secret = "..."
+    message: "Hardcoded secret detected - security risk"
+    severity: ERROR
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-259"
+      fix: "Use environment variables or secure secret management"
+
+  - id: hardcoded-token
+    pattern: token = "..."
+    message: "Hardcoded token detected - security risk"
+    severity: ERROR
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-259"
+      fix: "Use environment variables or secure secret management"
+
+  - id: hardcoded-database-password
+    pattern: "password.*=.*['\"][^'\"]{8,}['\"]"
+    message: "Hardcoded database password detected"
+    severity: ERROR
+    languages: [python, javascript, php, java, csharp, sql]
+    metadata:
+      category: security
+      cwe: "CWE-259"
+      fix: "Use environment variables or secure secret management"
+
+  - id: hardcoded-connection-string
+    pattern: "connection.*=.*['\"].*password.*['\"]"
+    message: "Hardcoded connection string with password"
+    severity: ERROR
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-259"
+      fix: "Use environment variables or secure secret management"
+
+  # HTTP vs HTTPS Issues
+  - id: http-url
+    pattern: "http://"
+    message: "Insecure HTTP URL - use HTTPS instead"
+    severity: WARNING
+    languages: [python, javascript, php, java, csharp, html]
+    metadata:
+      category: security
+      cwe: "CWE-319"
+      fix: "Replace http:// with https:// for secure communication"
+
+  - id: http-redirect
+    pattern: "redirect.*http://"
+    message: "Insecure HTTP redirect - use HTTPS"
+    severity: WARNING
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-319"
+      fix: "Use HTTPS redirects to prevent man-in-the-middle attacks"
+
+  - id: http-form-action
+    pattern: "<form.*action=\"http://"
+    message: "Form submits to insecure HTTP endpoint"
+    severity: WARNING
+    languages: [html]
+    metadata:
+      category: security
+      cwe: "CWE-319"
+      fix: "Use HTTPS for form submissions to protect sensitive data"
+
+  - id: http-ajax-url
+    pattern: "url.*:.*['\"]http://"
+    message: "AJAX request to insecure HTTP endpoint"
+    severity: WARNING
+    languages: [javascript]
+    metadata:
+      category: security
+      cwe: "CWE-319"
+      fix: "Use HTTPS for AJAX requests to protect data in transit"
+
+  # Weak Authentication
+  - id: weak-password-validation
+    pattern: "password.*length.*<.*8"
+    message: "Weak password policy - minimum length should be 8 characters"
+    severity: WARNING
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-521"
+      fix: "Implement stronger password requirements (minimum 8 characters, complexity)"
+
+  - id: no-password-hashing
+    pattern: "password.*=.*$...X"
+    message: "Password stored without hashing"
+    severity: ERROR
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-256"
+      fix: "Use password_hash() in PHP, bcrypt in Python, or similar secure hashing"
+
+  - id: plaintext-password-comparison
+    pattern: "password.*==.*$...X"
+    message: "Plaintext password comparison - security risk"
+    severity: ERROR
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-256"
+      fix: "Use password_verify() or similar secure comparison methods"
+
+  # Session Security
+  - id: weak-session-timeout
+    pattern: "session.*timeout.*>.*3600"
+    message: "Long session timeout - security risk"
+    severity: WARNING
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-384"
+      fix: "Set reasonable session timeout (e.g., 30 minutes for sensitive operations)"
+
+  - id: no-session-regeneration
+    pattern: "session_start()"
+    message: "Session not regenerated after login - potential session fixation"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-384"
+      fix: "Use session_regenerate_id() after successful authentication"
+
+  # File Upload Vulnerabilities
+  - id: unsafe-file-upload
+    pattern: "accept.*=.*['\"].*['\"]"
+    message: "Unsafe file upload - missing proper validation"
+    severity: WARNING
+    languages: [html, php, python, javascript]
+    metadata:
+      category: security
+      cwe: "CWE-434"
+      fix: "Validate file type, size, and content on server-side"
+
+  - id: no-file-type-validation
+    pattern: "upload.*file"
+    message: "File upload without type validation"
+    severity: WARNING
+    languages: [php, python, javascript, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-434"
+      fix: "Validate file extension, MIME type, and content"
+
+  # Directory Traversal
+  - id: path-traversal-dot-dot
+    pattern: ".."
+    message: "Potential directory traversal vulnerability"
+    severity: WARNING
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-22"
+      fix: "Validate and sanitize file paths, use path normalization"
+
+  - id: unsafe-file-path
+    pattern: "file.*=.*$...X"
+    message: "Unsafe file path handling"
+    severity: WARNING
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-22"
+      fix: "Validate file paths and restrict to allowed directories"
+
+  # Information Disclosure
+  - id: error-disclosure
+    pattern: "error.*=.*true"
+    message: "Error reporting enabled - information disclosure risk"
+    severity: WARNING
+    languages: [php, python, javascript, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-200"
+      fix: "Disable error reporting in production, use custom error handlers"
+
+  - id: debug-mode-enabled
+    pattern: "debug.*=.*true"
+    message: "Debug mode enabled - information disclosure risk"
+    severity: WARNING
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-200"
+      fix: "Disable debug mode in production environments"
+
+  - id: version-disclosure
+    pattern: "version.*=.*['\"].*['\"]"
+    message: "Version information exposed - information disclosure"
+    severity: INFO
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-200"
+      fix: "Remove or obfuscate version information in production"
+
+  # CSRF Vulnerabilities
+  - id: no-csrf-token
+    pattern: "<form"
+    message: "Form without CSRF protection"
+    severity: WARNING
+    languages: [html, php, python, javascript]
+    metadata:
+      category: security
+      cwe: "CWE-352"
+      fix: "Add CSRF tokens to all forms and validate on server-side"
+
+  - id: no-csrf-validation
+    pattern: "POST.*request"
+    message: "POST request without CSRF validation"
+    severity: WARNING
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-352"
+      fix: "Validate CSRF tokens for all state-changing operations"
+
+  # SQL Injection Patterns
+  - id: sql-string-concatenation
+    pattern: "SELECT.*FROM.*WHERE.*=.*$...X"
+    message: "SQL query with string concatenation - injection risk"
+    severity: ERROR
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-89"
+      fix: "Use parameterized queries or prepared statements"
+
+  - id: sql-unsafe-query
+    pattern: "query.*=.*$...X"
+    message: "Unsafe SQL query construction"
+    severity: WARNING
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-89"
+      fix: "Use parameterized queries or ORM methods"
+
+  # XSS Patterns
+  - id: xss-unsafe-output
+    pattern: "echo.*$...X"
+    message: "Unsafe output - potential XSS vulnerability"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-79"
+      fix: "Use htmlspecialchars() or similar encoding function"
+
+  - id: xss-unsafe-print
+    pattern: "print.*$...X"
+    message: "Unsafe output - potential XSS vulnerability"
+    severity: WARNING
+    languages: [php, python]
+    metadata:
+      category: security
+      cwe: "CWE-79"
+      fix: "Use proper encoding functions before output"
+
+  - id: xss-unsafe-html
+    pattern: "innerHTML.*=.*$...X"
+    message: "XSS vulnerability - unsafe innerHTML assignment"
+    severity: WARNING
+    languages: [javascript]
+    metadata:
+      category: security
+      cwe: "CWE-79"
+      fix: "Use textContent or sanitize input before setting innerHTML"
+
+  # Command Injection
+  - id: command-injection-os-system
+    pattern: "os.system($...X)"
+    message: "Command injection vulnerability"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      category: security
+      cwe: "CWE-78"
+      fix: "Use subprocess with proper argument handling"
+
+  - id: command-injection-subprocess
+    pattern: "subprocess.run($...X, shell=True)"
+    message: "Command injection vulnerability with shell=True"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      category: security
+      cwe: "CWE-78"
+      fix: "Use subprocess without shell=True and proper argument handling"
+
+  # Weak Random Number Generation
+  - id: weak-random
+    pattern: "random.randint($...X)"
+    message: "Weak random number generation"
+    severity: WARNING
+    languages: [python]
+    metadata:
+      category: security
+      cwe: "CWE-338"
+      fix: "Use secrets.randbelow() or secrets.choice() for cryptographic purposes"
+
+  - id: weak-random-php
+    pattern: "rand($...X)"
+    message: "Weak random number generation"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-338"
+      fix: "Use random_bytes() or random_int() for cryptographic purposes"
+
+  # Insecure Deserialization
+  - id: unsafe-pickle
+    pattern: "pickle.loads($...X)"
+    message: "Insecure deserialization - avoid unpickling untrusted data"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      category: security
+      cwe: "CWE-502"
+      fix: "Use JSON or other safe serialization formats"
+
+  - id: unsafe-yaml
+    pattern: "yaml.load($...X)"
+    message: "Insecure YAML loading"
+    severity: WARNING
+    languages: [python]
+    metadata:
+      category: security
+      cwe: "CWE-502"
+      fix: "Use yaml.safe_load() instead of yaml.load()"
+
+  # Missing Security Headers
+  - id: no-security-headers
+    pattern: "header.*Content-Security-Policy"
+    message: "Missing security headers"
+    severity: INFO
+    languages: [php, python, javascript, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-693"
+      fix: "Add security headers: CSP, X-Frame-Options, X-Content-Type-Options, etc."
+
+  # Weak Encryption
+  - id: weak-encryption-md5
+    pattern: "md5($...X)"
+    message: "Weak cryptographic hash - MD5 is broken"
+    severity: ERROR
+    languages: [php, python, javascript, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-327"
+      fix: "Use SHA-256, bcrypt, or Argon2 for hashing"
+
+  - id: weak-encryption-sha1
+    pattern: "sha1($...X)"
+    message: "Weak cryptographic hash - SHA1 is broken"
+    severity: ERROR
+    languages: [php, python, javascript, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-327"
+      fix: "Use SHA-256, bcrypt, or Argon2 for hashing"
+
+  # Logging Sensitive Data
+  - id: log-password
+    pattern: "log.*password"
+    message: "Sensitive data in logs - security risk"
+    severity: WARNING
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-532"
+      fix: "Never log passwords, tokens, or other sensitive data"
+
+  - id: log-credit-card
+    pattern: "log.*card"
+    message: "Credit card data in logs - PCI compliance violation"
+    severity: ERROR
+    languages: [python, javascript, php, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-532"
+      fix: "Never log credit card numbers or other payment data"
+
+  # Missing Input Validation
+  - id: no-input-validation
+    pattern: "$_GET[$...X]"
+    message: "Missing input validation"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-20"
+      fix: "Validate and sanitize all user inputs"
+
+  - id: no-input-validation-post
+    pattern: "$_POST[$...X]"
+    message: "Missing input validation"
+    severity: WARNING
+    languages: [php]
+    metadata:
+      category: security
+      cwe: "CWE-20"
+      fix: "Validate and sanitize all user inputs"
+
+  # Race Conditions
+  - id: race-condition-file
+    pattern: "file_exists($...X)"
+    message: "Potential race condition in file operations"
+    severity: WARNING
+    languages: [php, python, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-367"
+      fix: "Use atomic operations or proper locking mechanisms"
+
+  # Buffer Overflow
+  - id: unsafe-strcpy
+    pattern: "strcpy($...X, $...Y)"
+    message: "Unsafe string copy - potential buffer overflow"
+    severity: ERROR
+    languages: [c, cpp]
+    metadata:
+      category: security
+      cwe: "CWE-119"
+      fix: "Use strncpy() or strlcpy() with proper bounds checking"
+
+  # Integer Overflow
+  - id: unsafe-addition
+    pattern: "$...X + $...Y"
+    message: "Potential integer overflow"
+    severity: WARNING
+    languages: [c, cpp, java, csharp]
+    metadata:
+      category: security
+      cwe: "CWE-190"
+      fix: "Check for overflow before arithmetic operations"
